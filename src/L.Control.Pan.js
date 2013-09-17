@@ -29,7 +29,39 @@ L.Control.Pan = L.Control.extend({
 		L.DomEvent
 			.on(link, 'click', L.DomEvent.stopPropagation)
 			.on(link, 'click', L.DomEvent.preventDefault)
-			.on(link, 'click', function(){ map.panBy(offset); }, map)
+			.on(link, 'click', function(){
+				if (map.options.maxBounds) {
+					var bounds = map.options.maxBounds.pad(0.05),
+							viewBounds = map.getPixelBounds(),
+							viewSw = viewBounds.getBottomLeft(),
+							viewNe = viewBounds.getTopRight(),
+							sw = map.project(bounds.getSouthWest()),
+							ne = map.project(bounds.getNorthEast()),
+							afterSw = viewSw.add(offset),
+							afterNe = viewNe.add(offset),
+							dx = 0,
+							dy = 0;
+
+					if (afterNe.y < ne.y) { // north
+						dy = Math.ceil(ne.y - viewNe.y);
+					}
+					if (afterNe.x > ne.x) { // east
+						dx = Math.floor(ne.x - viewNe.x);
+					}
+					if (afterSw.y > sw.y) { // south
+						dy = Math.floor(sw.y - viewSw.y);
+					}
+					if (afterSw.x < sw.x) { // west
+						dx = Math.ceil(sw.x - viewSw.x);
+					}
+
+					if (dx || dy) {
+						map.panBy([dx, dy]);
+						return;
+					}
+				}
+				map.panBy(offset);
+			}, map)
 			.on(link, 'dblclick', L.DomEvent.stopPropagation)
 
 		return link;
