@@ -10,13 +10,13 @@ L.Control.Pan = L.Control.extend({
 			off = this.options.panOffset;
 
 		this._panButton('Up'   , className + '-up'   
-						, container, map, new L.Point(    0 , -off));
+						, container, map, new L.Point(    0 , -off), '&#x25B2;');
 		this._panButton('Left' , className + '-left' 
-						, container, map, new L.Point( -off ,  0));
+						, container, map, new L.Point( -off ,  0), '&#x25C0;');
 		this._panButton('Right', className + '-right'
-						, container, map, new L.Point(  off ,  0));
+						, container, map, new L.Point(  off ,  0), '&#x25B6;');
 		this._panButton('Down' , className + '-down'
-						, container, map, new L.Point(    0 ,  off));
+						, container, map, new L.Point(    0 ,  off), '&#x25BC;');
 		
 		return container;
 	},
@@ -26,6 +26,7 @@ L.Control.Pan = L.Control.extend({
 		var link = L.DomUtil.create('a', className, wrapper);
 		link.href = '#';
 		link.title = title;
+		link.innerHTML = text;
 		L.DomEvent
 			.on(link, 'click', L.DomEvent.stopPropagation)
 			.on(link, 'click', L.DomEvent.preventDefault)
