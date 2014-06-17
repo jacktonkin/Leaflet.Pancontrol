@@ -23,6 +23,7 @@ L.Control.Pan = L.Control.extend({
 
 	_panButton: function (title, className, container, map, offset, text) {
 		var wrapper = L.DomUtil.create('div', className + "-wrap", container);
+		L.DomUtil.addClass(wrapper, 'leaflet-bar');
 		var link = L.DomUtil.create('a', className, wrapper);
 		link.href = '#';
 		link.title = title;
